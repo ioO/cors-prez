@@ -1,6 +1,8 @@
 module Main exposing (..)
 
 import Html exposing (..)
+import Http
+import Json.Decode as Decode
 
 
 main =
@@ -26,7 +28,7 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( "Waiting quote", Cmd.none )
+    ( "Waiting quote", getQuote )
 
 
 
@@ -34,14 +36,17 @@ init =
 
 
 type Msg
-    = Nothing
+    = Quote (Result Http.Error String)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Nothing ->
+        Quote (Ok quote) ->
             ( "World", Cmd.none )
+
+        Quote (Err _) ->
+            ( "Error", Cmd.none )
 
 
 
@@ -60,3 +65,21 @@ view model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
+
+
+
+-- HTTP
+
+
+getQuote : Cmd Msg
+getQuote =
+    let
+        url =
+            "http://localhost:8888/quote"
+    in
+        Http.send Quote (Http.get url decodeQuote)
+
+
+decodeQuote : Decode.Decoder String
+decodeQuote =
+    Decode.at [ "quote", "author" ] Decode.string
