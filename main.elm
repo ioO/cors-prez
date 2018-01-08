@@ -18,8 +18,16 @@ main =
 -- MODEL
 
 
+type alias Quote =
+    { quote : String
+    , author : String
+    }
+
+
 type alias Model =
-    String
+    { quote : Maybe Quote
+    , error : Maybe Http.Error
+    }
 
 
 
@@ -28,7 +36,11 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( "Waiting quote", getQuote )
+    ( { quote = Nothing
+      , error = Nothing
+      }
+    , getQuote
+    )
 
 
 
@@ -36,17 +48,17 @@ init =
 
 
 type Msg
-    = Quote (Result Http.Error String)
+    = QuoteUpdate (Result Http.Error Quote)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Quote (Ok quote) ->
-            ( "World", Cmd.none )
+        QuoteUpdate (Ok quote) ->
+            ( { model | quote = Just quote }, Cmd.none )
 
-        Quote (Err _) ->
-            ( "Error", Cmd.none )
+        QuoteUpdate (Err e) ->
+            ( { model | error = Just e }, Cmd.none )
 
 
 
@@ -55,7 +67,10 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [] [ text model ]
+    div []
+        [ div [] [ text ("Quote : " ++ (toString model.quote)) ]
+        , div [] [ text ("Error : " ++ (toString model.error)) ]
+        ]
 
 
 
@@ -77,9 +92,18 @@ getQuote =
         url =
             "http://localhost:8888/quote"
     in
-        Http.send Quote (Http.get url decodeQuote)
+        Http.send QuoteUpdate (Http.get url quoteDecoder)
 
 
-decodeQuote : Decode.Decoder String
-decodeQuote =
-    Decode.at [ "quote", "author" ] Decode.string
+
+-- decodeQuote : Decode.Decoder (List a)
+-- decodeQuote json =
+--   Decode.list json
+
+
+quoteDecoder : Decode.Decoder Quote
+quoteDecoder =
+    Decode.map2
+        Quote
+        (Decode.at [ "quote" ] Decode.string)
+        (Decode.at [ "author" ] Decode.string)
