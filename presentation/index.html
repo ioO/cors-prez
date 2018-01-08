@@ -156,6 +156,24 @@ class QuoteResource:
         <section>
           <h3>C'est une protection client pas serveur</h3>
           <p>Quelque soit vos restrictions avec CORS, le serveur répond avec le protocole HTTP</p>
+          <pre><code>
+[ioo@ ~]$ http GET http://localhost:8888/quote
+HTTP/1.1 200 OK
+Connection: close
+Date: Mon, 08 Jan 2018 22:56:38 GMT
+Server: gunicorn/19.7.1
+access-control-allow-headers: Content-Type
+access-control-allow-origin: https://www.mozilla.com/
+access-control-max-age: 86400
+allow: GET,OPTIONS
+content-length: 103
+content-type: application/json; charset=UTF-8
+
+{
+    "author": "Grace Hopper",
+    "quote": "I've always been more interested in the future than in the past."
+}
+          </code></pre>
         </section>
 				<section>Implication dev serveur</section>
 				<section>Protection simple firewall</section>
