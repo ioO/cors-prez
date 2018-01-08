@@ -81,7 +81,36 @@ content-type: application/json; charset=UTF-8
           <p>Source Main.elm, compilation elm-reactor</p>
           <p>Le client effectue une <b>HttpRequest en GET</b> sur le serveur</p>
         </section>
-				<section>Client (step 2) erreurs</section>
+				<section>
+          <h3>WTF... Erreur<h3>
+          <img src="img/client_network_error.jpg" />
+        </section>
+        <section>
+          <h3>Pourtant http fonctionne</h3>
+          <small>( avec httpie )</small>
+          <pre><code>
+[ioo@ ~]$ http GET http://localhost:8888/quote
+HTTP/1.1 200 OK
+Connection: close
+Date: Mon, 08 Jan 2018 19:51:21 GMT
+Server: gunicorn/19.7.1
+content-length: 103
+content-type: application/json; charset=UTF-8
+
+{
+    "author": "Grace Hopper",
+    "quote": "I've always been more interested in the future than in the past."
+}
+          </code></pre>
+        </section>
+        <section>
+          <h3>Et le navigateur...</h3>
+          <img src="img/call_server_json_response.jpg" />
+        </section>
+        <section>
+          <h3>Ouvrir ta console avant tes yeux tu dois !</h3>
+          <img src="img/console_cors_error.jpg" />
+        </section>
 				<section>Server fix (step 3)</section>
 				<section>Server fix (step 3) http + browser</section>
 				<section>Fonctionnement CORS</section>
