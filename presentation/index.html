@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>CORS à petit pas - Cross-Origin Resource Sharing</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -53,7 +53,28 @@
               api.add_route('/quote', QuoteResource())
           </code></pre>
         </section>
-				<section>Server (step 1) http + browser</section>
+				<section>
+          <h3>Appel http</h3>
+          <small>( avec httpie )</small>
+          <pre><code>
+[ioo@ ~]$ http GET http://localhost:8888/quote
+HTTP/1.1 200 OK
+Connection: close
+Date: Mon, 08 Jan 2018 19:51:21 GMT
+Server: gunicorn/19.7.1
+content-length: 103
+content-type: application/json; charset=UTF-8
+
+{
+    "author": "Grace Hopper",
+    "quote": "I've always been more interested in the future than in the past."
+}
+          </code></pre>
+        </section>
+        <section>
+          <h3>Dans le navigateur</h3>
+          <img src="img/call_server_json_response.jpg" />
+        </section>
 				<section>Client (step 2)</section>
 				<section>Client (step 2) erreurs</section>
 				<section>Server fix (step 3)</section>
