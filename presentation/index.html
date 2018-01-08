@@ -123,6 +123,23 @@ content-type: application/json; charset=UTF-8
           <h3>Modification du serveur</h3>
           <small>( git checkout step_3 ) </small>
           <pre><code>
+class QuoteResource:
+  def on_get(self, req, resp):
+   """Handles GET requests"""
+   quote = {
+       'quote': (
+           "I've always been more interested in "
+           "the future than in the past."
+       ),
+       'author': 'Grace Hopper'
+   }
+   resp.status = falcon.HTTP_200
+   resp.append_header('Access-Control-Allow-Origin', '*')
+   resp.append_header('Allow', 'GET,OPTIONS')
+   resp.append_header('Access-Control-Allow-Headers', 'Content-Type')
+   resp.append_header('Access-Control-Max-Age', '86400')
+
+   resp.media = quote
           </code></pre>
         </section>
 				<section>Server fix (step 3) http + browser</section>
