@@ -29,11 +29,29 @@
           <small>Cross-Origin Resource Sharing</small>
         </section>
 				<section>
-          <h1>Une api simple</h1>
-          <code>
+          <h3>Une api simple</h3>
+          <small>( git checkout step_1 )</small>
+          <pre><code>
+          import falcon
 
-          </code>
-          <small>git checkout step_1</small>
+
+          class QuoteResource:
+            def on_get(self, req, resp):
+            """Handles GET requests"""
+              quote = {
+                'quote': (
+                  "I've always been more interested in "
+                  "the future than in the past."
+                ),
+                'author': 'Grace Hopper'
+              }
+
+              resp.media = quote
+
+
+              api = falcon.API()
+              api.add_route('/quote', QuoteResource())
+          </code></pre>
         </section>
 				<section>Server (step 1) http + browser</section>
 				<section>Client (step 2)</section>
